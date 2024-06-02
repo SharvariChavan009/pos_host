@@ -4,14 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:host_task/core/auth/cubits/CheckEmailPassword/check_email_pass_cubit.dart';
 import 'package:host_task/core/auth/cubits/email/email_cubit.dart';
+import 'package:host_task/core/auth/cubits/get_user_details/get_user_details_cubit.dart';
 import 'package:host_task/core/auth/cubits/password/login_cubit.dart';
 import 'package:host_task/core/common/c_text_field.dart';
 import 'package:host_task/core/common/colors.dart';
 import 'package:host_task/core/common/common_messages.dart';
 import 'package:host_task/core/common/overlay.dart';
 import 'package:host_task/screen/host_screen/host_screen.dart';
-
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,7 +20,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     // -----------------------------------------
@@ -51,6 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => HostScreen()),
                   (Route route) => false);
+           
+
+              BlocProvider.of<GetUserDetailsCubit>(context).getUserDetails();
             }
             if (state is LoginFailedfulState) {
               //------- Snackbar ------------

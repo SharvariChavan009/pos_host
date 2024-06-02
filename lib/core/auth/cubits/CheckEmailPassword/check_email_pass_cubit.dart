@@ -38,7 +38,7 @@ class CheckEmailPassCubit extends Cubit<CheckEmailPassState> {
 
           // ------- Add AuthToken in Hive ----------
           var authBox = await Hive.openBox("authBox");
-          authBox.put("authToken", utoken);
+          authBox.put("authToken", response.data["data"]);
           //-----------------------------------------
 
           emit(LoginSuccessfulState());

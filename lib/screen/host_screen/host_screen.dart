@@ -1,6 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:host_task/core/auth/cubits/get_user_details/get_user_details_cubit.dart';
+import 'package:host_task/core/auth/cubits/logout/logout_cubit.dart';
+import 'package:host_task/core/auth/presentation/login_screen.dart';
 import 'package:host_task/core/common/colors.dart';
 import 'package:host_task/screen/common/common_list.dart';
 import 'package:host_task/screen/host_screen/cubits/check_status/check_status_cubit.dart';
@@ -16,6 +20,7 @@ class HostScreen extends StatefulWidget {
 
 class _HostScreenState extends State<HostScreen> {
   // ------------------------------
+
   List<String> selectedItemValue = []; // ready
 
   List<DropdownMenuItem<String>> _dropDownItem() {
@@ -51,13 +56,83 @@ class _HostScreenState extends State<HostScreen> {
             fit: BoxFit.fill,
           ),
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(
-              size: 30,
-              Icons.notifications,
-              color: Colors.black,
+            padding: EdgeInsets.only(right: 20.0, left: 10),
+            child: Row(
+              children: [
+                Icon(
+                  size: 25,
+                  Icons.notifications,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 5.0, left: 10),
+                  child: BlocBuilder<GetUserDetailsCubit, GetUserDetailsState>(
+                    builder: (context, state) {
+                      if (state is GetUserDetailsSuccessState) {
+                        return Text(
+                          state.userName,
+                          style: TextStyle(color: AppColors.newTextColor),
+                        );
+                      }
+                      if (state is GetUserDetailsErrorState) {
+                        return Text(state.errorName);
+                      }
+                      return SizedBox();
+                    },
+                  ),
+                ),
+                BlocConsumer<LogoutCubit, LogoutState>(
+                  listener: (context, state) {
+                       Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                          (Route route) => false);
+                  },
+                  builder: (context, state) {
+                    return PopupMenuButton(
+                        position: PopupMenuPosition.under,
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_sharp,
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                        color: AppColors.newCardBackgroundColor,
+                        itemBuilder: (context) => [
+                              PopupMenuItem(
+                                  onTap: () {},
+                                  textStyle: const TextStyle(
+                                    color: AppColors.newTextColor,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      BlocProvider.of<LogoutCubit>(context)
+                                          .logout();
+                                    },
+                                    child: const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.logout,
+                                          color: AppColors.newTextColor,
+                                          size: 20,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Logout",
+                                          style: TextStyle(
+                                            color: AppColors.newTextColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ]);
+                  },
+                )
+              ],
             ),
           )
         ],
@@ -234,55 +309,52 @@ class _HostScreenState extends State<HostScreen> {
                                                           left: 2.0, right: 2),
                                                   child: SizedBox(
                                                     child: BlocBuilder<
-                                                            CheckStatusCubit,
-                                                            CheckStatusState>(
-                                                          builder:
-                                                              (context, state) {
-                                                            return DropdownButtonFormField(
-                                                              decoration: InputDecoration(
-                                                                  enabledBorder:
-                                                                      UnderlineInputBorder(
-                                                                          borderSide:
-                                                                              BorderSide(color: Colors.white))),
-                                                              dropdownColor:
-                                                                  Colors.white,
-                                                              value:
-                                                                  selectedItemValue[
-                                                                      index],
-                                                              items:
-                                                                  _dropDownItem(),
-                                                              onChanged:
-                                                                  (value) {
-                                                                status =
-                                                                    selectedItemValue[
-                                                                            index] =
-                                                                        value!;
+                                                        CheckStatusCubit,
+                                                        CheckStatusState>(
+                                                      builder:
+                                                          (context, state) {
+                                                        return DropdownButtonFormField(
+                                                          decoration: InputDecoration(
+                                                              enabledBorder: UnderlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                          color:
+                                                                              Colors.white))),
+                                                          dropdownColor:
+                                                              Colors.white,
+                                                          value:
+                                                              selectedItemValue[
+                                                                  index],
+                                                          items:
+                                                              _dropDownItem(),
+                                                          onChanged: (value) {
+                                                            status =
+                                                                selectedItemValue[
+                                                                        index] =
+                                                                    value!;
 
-                                                                id = orderdata
-                                                                    .orderId
-                                                                    .toString();
+                                                            id = orderdata
+                                                                .orderId
+                                                                .toString();
 
-                                                                setState(() {
-                                                                  print(
-                                                                      '<< Host Selected Id: $id and value: $status >>');
-                                                                });
+                                                            setState(() {
+                                                              print(
+                                                                  '<< Host Selected Id: $id and value: $status >>');
+                                                            });
 
-                                                                BlocProvider.of<
-                                                                            CheckStatusCubit>(
-                                                                        context)
-                                                                    .CheckStatusData();
+                                                            BlocProvider.of<
+                                                                        CheckStatusCubit>(
+                                                                    context)
+                                                                .CheckStatusData();
 
-                                                                BlocProvider.of<
-                                                                            GetDataCubit>(
-                                                                        context)
-                                                                    .fetchPlacedlData();
-                                                              },
-
-                                                          
-                                                            );
+                                                            BlocProvider.of<
+                                                                        GetDataCubit>(
+                                                                    context)
+                                                                .fetchPlacedlData();
                                                           },
-                                                        ),
-                                                     
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),
