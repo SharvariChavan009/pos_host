@@ -184,6 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           child: SizedBox(
                                             width: screenWidth * 0.84,
                                             child: CustomTextField(
+                                              inputType: CustomTextInputType.password,
                                               controller: loginpinController,
                                               obscureText: true,
                                               hintText: "PIN",
