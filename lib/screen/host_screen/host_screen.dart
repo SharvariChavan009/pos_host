@@ -6,10 +6,15 @@ import 'package:host_task/core/auth/cubits/get_user_details/get_user_details_cub
 import 'package:host_task/core/auth/cubits/logout/logout_cubit.dart';
 import 'package:host_task/core/auth/presentation/login_screen.dart';
 import 'package:host_task/core/common/colors.dart';
+import 'package:host_task/core/common/label.dart';
 import 'package:host_task/screen/common/common_list.dart';
+import 'package:host_task/screen/host_screen/cubits/change_language/change_language_cubit.dart';
 import 'package:host_task/screen/host_screen/cubits/check_status/check_status_cubit.dart';
 import 'package:host_task/screen/host_screen/cubits/delivered_Data/fetch_prepared_data_cubit.dart';
 import 'package:host_task/screen/host_screen/cubits/ready_data/get_data_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
+enum Language { english, arabic }
 
 class HostScreen extends StatefulWidget {
   const HostScreen({super.key});
@@ -22,6 +27,8 @@ class _HostScreenState extends State<HostScreen> {
   // ------------------------------
 
   List<String> selectedItemValue = []; // ready
+
+  String? selectedLanguage = "English";
 
   List<DropdownMenuItem<String>> _dropDownItem() {
     List<String> itemValue = ["Ready", "Delivered"];
@@ -85,10 +92,9 @@ class _HostScreenState extends State<HostScreen> {
                 ),
                 BlocConsumer<LogoutCubit, LogoutState>(
                   listener: (context, state) {
-                       Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
-                          (Route route) => false);
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (Route route) => false);
                   },
                   builder: (context, state) {
                     return PopupMenuButton(
@@ -131,6 +137,51 @@ class _HostScreenState extends State<HostScreen> {
                                   )),
                             ]);
                   },
+                ),
+                Text(
+                  selectedLanguage!,
+                  style: const TextStyle(
+                    color: AppColors.secondaryColor,
+                    fontSize: 14,
+                    fontFamily: CustomLabels.primaryFont,
+                  ),
+                ),
+                BlocBuilder<ChangeLanguageCubit, ChangeLanguageState>(
+                  builder: (context, state) {
+                    return PopupMenuButton(
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: AppColors.iconColor,
+                          size: 20,
+                        ),
+                        onSelected: (Language value) {
+                          // selectedLanguage = "$value";
+                          if (Language.english.name == value.name) {
+                            selectedLanguage = "English";
+                            BlocProvider.of<ChangeLanguageCubit>(context)
+                                .ChangelanguageFunction(Locale('en'));
+
+                            print("Selected Language: ${value.name}");
+                          } else {
+                            selectedLanguage = "عربي";
+                            BlocProvider.of<ChangeLanguageCubit>(context)
+                                .ChangelanguageFunction(Locale('ar'));
+
+                            print("Selected Language: ${value.name}");
+                          }
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<Language>>[
+                              const PopupMenuItem(
+                                value: Language.english,
+                                child: Text('English'),
+                              ),
+                              const PopupMenuItem(
+                                value: Language.arabic,
+                                child: Text('arabic'),
+                              ),
+                            ]);
+                  },
                 )
               ],
             ),
@@ -158,8 +209,10 @@ class _HostScreenState extends State<HostScreen> {
                         repeatForever: true,
                         isRepeatingAnimation: true,
                         animatedTexts: [
-                          TyperAnimatedText('Ready To Serve'),
-                          TyperAnimatedText('Collect The Order..'),
+                          TyperAnimatedText(
+                              '${AppLocalizations.of(context)!.readyToServe} '),
+                          TyperAnimatedText(
+                              '${AppLocalizations.of(context)!.collectTheOrder}..'),
                         ],
                       ),
                     ),
@@ -214,7 +267,7 @@ class _HostScreenState extends State<HostScreen> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    "Order No: ",
+                                                    "${AppLocalizations.of(context)!.orderno}: ",
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -240,7 +293,7 @@ class _HostScreenState extends State<HostScreen> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    "Table No: ",
+                                                    "${AppLocalizations.of(context)!.tableno}: ",
                                                     style: TextStyle(
                                                         color: AppColors
                                                             .newTextColor,
