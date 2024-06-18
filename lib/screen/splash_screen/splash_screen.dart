@@ -123,7 +123,7 @@ class _SplashScreenState extends State<SplashScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              AppImage.splash,
+              "assets/image/splash.webp",
             ),
             fit: BoxFit.cover,
           ),
