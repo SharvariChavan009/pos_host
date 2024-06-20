@@ -11,14 +11,14 @@ part 'get_data_state.dart';
 
 class GetDataCubit extends Cubit<GetDataState> {
   GetDataCubit() : super(GetDataInitial()) {
-    fetchPlacedlData();
+    fetchReadyData();
   }
 
   // Functions
   Dio dio = Dio();
 
   // Fetch All Data
-  void fetchPlacedlData() async {
+  void fetchReadyData() async {
     var box = await Hive.openBox("authBox");
     String authVar = box.get("authToken");
 

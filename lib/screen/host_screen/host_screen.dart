@@ -27,8 +27,7 @@ class HostScreen extends StatefulWidget {
 class _HostScreenState extends State<HostScreen> {
   // ------------------------------
 
-    var ordernum;
-
+  var ordernum;
 
   List<String> selectedItemValue = []; // ready
 
@@ -53,6 +52,7 @@ class _HostScreenState extends State<HostScreen> {
     print("Screen Height: $screenHeight");
     print("Screen Width: $screenWidth");
 
+//-------------------------------
     return Scaffold(
       backgroundColor: AppColors.scolor,
       appBar: AppBar(
@@ -194,7 +194,7 @@ class _HostScreenState extends State<HostScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 10, bottom: 0),
+            padding: const EdgeInsets.only(top: 10.0, left: 10, bottom: 10),
             child: SizedBox(
               width: screenWidth,
               child: Column(
@@ -233,7 +233,7 @@ class _HostScreenState extends State<HostScreen> {
                         print(state);
 
                         return Container(
-                          height: screenHeight * 0.38,
+                          height: screenHeight * 0.28,
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
@@ -245,44 +245,48 @@ class _HostScreenState extends State<HostScreen> {
                                 }
 
                                 var orderdata = state.readyList[index];
-                                print(" Order Name: ${orderdata.items![index].name}");
+                                print(
+                                    " Order Name: ${orderdata.items![index].name}");
                                 return Padding(
-                                  padding: const EdgeInsets.all(0.0),
-
-                                  child :Card(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Card(
                                     color: AppColors.newCardBackgroundColor,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: AppColors.newCardBackgroundColor,
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
+                                          color:
+                                              AppColors.newCardBackgroundColor,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
                                       width: screenWidth * 0.30,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(bottom: 5),
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 5),
                                               child: Row(
                                                 children: [
                                                   AutoSizeText(
                                                     "${AppLocalizations.of(context)!.orderno}: ",
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 18,
-                                                    ),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18),
                                                     minFontSize: 14,
                                                     maxFontSize: 18,
                                                   ),
                                                   AutoSizeText(
-                                                    orderdata.orderNo.toString(),
+                                                    orderdata.orderNo
+                                                        .toString(),
                                                     style: const TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.black,
-                                                      fontSize: 18,
-                                                    ),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                        fontSize: 18),
                                                     minFontSize: 14,
                                                     maxFontSize: 18,
                                                   ),
@@ -294,89 +298,267 @@ class _HostScreenState extends State<HostScreen> {
                                                 AutoSizeText(
                                                   "${AppLocalizations.of(context)!.tableno}: ",
                                                   style: TextStyle(
-                                                    color: AppColors.newTextColor,
-                                                    fontSize: 18,
-                                                  ),
+                                                      color: AppColors
+                                                          .newTextColor,
+                                                      fontSize: 18),
                                                   minFontSize: 14,
                                                   maxFontSize: 18,
                                                 ),
                                                 AutoSizeText(
                                                   orderdata.tableNo.toString(),
                                                   style: const TextStyle(
-                                                    color: AppColors.newTextColor,
-                                                    fontSize: 18,
-                                                  ),
+                                                      color: AppColors
+                                                          .newTextColor,
+                                                      fontSize: 18),
                                                   minFontSize: 14,
                                                   maxFontSize: 18,
                                                 ),
                                               ],
                                             ),
-                                            //------- View More --------------
-                                            Text("Items"),
-                                            Column(
-                                              children: List.generate(orderdata.items!.length, (i) {
-                                                var item = orderdata.items![i];
-                                                return Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    AutoSizeText(
-                                                      item.name.toString(),
-                                                      style: const TextStyle(
-                                                        color: AppColors.newTextColor,
-                                                        fontSize: 18,
-                                                      ),
-                                                      minFontSize: 14,
-                                                      maxFontSize: 18,
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 7.0),
-                                                      child: AutoSizeText(
-                                                        item.quatity.toString(),
-                                                        style: const TextStyle(
-                                                          color: AppColors.newTextColor,
-                                                          fontSize: 18,
-                                                        ),
-                                                        minFontSize: 14,
-                                                        maxFontSize: 18,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              }),
+
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                AutoSizeText(
+                                                  orderdata.items![0].name
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      color: AppColors
+                                                          .newTextColor,
+                                                      fontSize: 18),
+                                                  minFontSize: 14,
+                                                  maxFontSize: 18,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 7.0),
+                                                  child: AutoSizeText(
+                                                    orderdata.items![0].quatity
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        color: AppColors
+                                                            .newTextColor,
+                                                        fontSize: 18),
+                                                    minFontSize: 14,
+                                                    maxFontSize: 18,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            // Additional elements and logic if needed
+
+                                            //------- View More --------------
+
+                                            state.readyList[index].items!
+                                                        .length >
+                                                    1
+                                                ? Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      GestureDetector(
+                                                        child: AutoSizeText(
+                                                          "${AppLocalizations.of(context)!.viewmore} ",
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              decorationColor:
+                                                                  AppColors
+                                                                      .secondaryColor,
+                                                              color: AppColors
+                                                                  .secondaryColor,
+                                                              fontSize: 14),
+                                                          minFontSize: 12,
+                                                          maxFontSize: 14,
+                                                        ),
+                                                        onTap: () {
+                                                          ordernum = orderdata
+                                                              .orderNo
+                                                              .toString();
+
+                                                          showDialog(
+                                                            barrierDismissible:
+                                                                true,
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              var screenSize =
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size;
+                                                              return Dialog(
+                                                                backgroundColor:
+                                                                    AppColors
+                                                                        .newCardBackgroundColor,
+                                                                child: SizedBox(
+                                                                  width: screenSize
+                                                                          .width *
+                                                                      0.3, // 80% of screen width
+                                                                  height: screenSize
+                                                                          .height *
+                                                                      0.5, // 50% of screen height
+
+                                                                  child:
+                                                                      Container(
+                                                                    decoration: BoxDecoration(
+                                                                        color: AppColors
+                                                                            .newCardBackgroundColor,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(15)),
+                                                                    height:
+                                                                        screenHeight *
+                                                                            0.50,
+                                                                    width:
+                                                                        screenWidth *
+                                                                            0.25,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .only(
+                                                                          top:
+                                                                              20.0,
+                                                                          bottom:
+                                                                              8,
+                                                                          right:
+                                                                              10,
+                                                                          left:
+                                                                              10),
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(bottom: 25.0),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
+                                                                                Text(
+                                                                                  "${AppLocalizations.of(context)!.orderno}: ",
+                                                                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                ),
+                                                                                Text(
+                                                                                  ordernum,
+                                                                                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          ListView.builder(
+                                                                              shrinkWrap: true,
+                                                                              itemCount: orderdata.items!.length,
+                                                                              itemBuilder: (context, index1) {
+                                                                                return Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    AutoSizeText(
+                                                                                      orderdata.items![index1].name.toString(),
+                                                                                      style: const TextStyle(color: AppColors.newTextColor, fontSize: 18),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(right: 7.0),
+                                                                                      child: AutoSizeText(
+                                                                                        orderdata.items![index1].quatity.toString(),
+                                                                                        style: const TextStyle(color: AppColors.newTextColor, fontSize: 18),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                );
+                                                                              }),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                      )
+                                                    ],
+                                                  )
+                                                : Container(),
+
+                                            //--------------------------------
+
                                             Padding(
-                                              padding: orderdata.items!.length == 1
-                                                  ? const EdgeInsets.only(top: 26.0)
-                                                  : const EdgeInsets.only(top: 5.0),
+                                              padding: state.readyList[index]
+                                                          .items!.length ==
+                                                      1
+                                                  ? const EdgeInsets.only(
+                                                      top: 26.0,
+                                                    )
+                                                  : const EdgeInsets.only(
+                                                      top: 5.0,
+                                                    ),
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: AppColors.scolor,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
+                                                    color: AppColors.scolor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(left: 2.0, right: 2),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 2.0, right: 2),
                                                   child: SizedBox(
-                                                    child: BlocBuilder<CheckStatusCubit, CheckStatusState>(
-                                                      builder: (context, state) {
+                                                    child: BlocBuilder<
+                                                        CheckStatusCubit,
+                                                        CheckStatusState>(
+                                                      builder:
+                                                          (context, state) {
                                                         return DropdownButtonFormField(
                                                           decoration: const InputDecoration(
-                                                            enabledBorder: UnderlineInputBorder(
-                                                              borderSide: BorderSide(color: Colors.transparent),
-                                                            ),
-                                                          ),
-                                                          dropdownColor: Colors.white,
-                                                          value: selectedItemValue[index],
-                                                          items: _dropDownItem(),
+                                                              enabledBorder: UnderlineInputBorder(
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                          color:
+                                                                              Colors.transparent))),
+                                                          dropdownColor:
+                                                              Colors.white,
+                                                          value:
+                                                              selectedItemValue[
+                                                                  index],
+                                                          items:
+                                                              _dropDownItem(),
                                                           onChanged: (value) {
-                                                            selectedItemValue[index] = value!;
-                                                            // Handle other state changes and Bloc calls here
+                                                            status =
+                                                                selectedItemValue[
+                                                                        index] =
+                                                                    value!;
+
+                                                            id = orderdata
+                                                                .orderId
+                                                                .toString();
+
+                                                            BlocProvider.of<
+                                                                        CheckStatusCubit>(
+                                                                    context)
+                                                                .CheckStatusData();
+
+                                                            BlocProvider.of<
+                                                                        GetDataCubit>(
+                                                                    context)
+                                                                .fetchReadyData();
+
+                                                            BlocProvider.of<
+                                                                        FetchPreparedDataCubit>(
+                                                                    context)
+                                                                .fetchPreparedlData();
 
                                                             setState(() {
-                                                              print('<< Placed Selected Index: $index and value: $value >>');
+                                                              print(
+                                                                  '<< Placed Selected Index: $index and value: $value >>');
                                                             });
                                                           },
                                                           onTap: () {},
+                                                          // hint: Text('0'),
                                                         );
                                                       },
                                                     ),
@@ -388,9 +570,7 @@ class _HostScreenState extends State<HostScreen> {
                                         ),
                                       ),
                                     ),
-                                  )
-
-                                  ,
+                                  ),
                                 );
                               }),
                         );
@@ -406,8 +586,5 @@ class _HostScreenState extends State<HostScreen> {
         ],
       ),
     );
-
-
-
   }
 }

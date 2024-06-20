@@ -4,6 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:host_task/screen/host_screen/cubits/ready_data/get_data_cubit.dart';
 
 import '../../core/common/colors.dart';
+import '../common/common_list.dart';
+import '../model/order_model.dart';
+import 'cubits/check_status/check_status_cubit.dart';
+import 'cubits/delivered_Data/fetch_prepared_data_cubit.dart';
 
 class OrderListScreen extends StatelessWidget {
   @override
@@ -23,6 +27,14 @@ class OrderListScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: BlocBuilder<GetDataCubit, GetDataState>(
                         builder: (context, state) {
+                          List<OrderModel> orderList;
+                          if(state is GetPlacedDataLoadedState){
+                            print("ready order data count =${state.readyList.length}");
+                            orderList = state.readyList;
+                            orders1 = orderList;
+                          }
+
+
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,19 +45,16 @@ class OrderListScreen extends StatelessWidget {
                         },
                       ))
               )),),
-            // Expanded(
-            //   child:
+            // Container(
+            //   width: double.infinity,
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.horizontal,
+            //     child: Row(
+            //       children: orders2.map((order) => OrderCard(order: order))
+            //           .toList(),
+            //     ),
+            //   ),
             // ),
-            Container(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: orders2.map((order) => OrderCard(order: order))
-                      .toList(),
-                ),
-              ),
-            ),
           ],
         ),
         ));
@@ -67,7 +76,7 @@ List<DropdownMenuItem<String>> _dropDownItem() {
 List<String> selectedItemValue = []; // ready
 
 class OrderCard extends StatelessWidget {
-  final Order order;
+  final OrderModel order;
 
   OrderCard({required this.order});
 
@@ -76,9 +85,6 @@ class OrderCard extends StatelessWidget {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.all(10.0),
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(15),
-      // ),
       child: Container(
         width: 300, // Adjust the width as needed
         padding: const EdgeInsets.all(8.0),
@@ -96,7 +102,7 @@ class OrderCard extends StatelessWidget {
             //     ),
             //   ],
             // ),
-            const Row(
+             Row(
               children: [
                 AutoSizeText(
                   "orderno: ",
@@ -109,7 +115,7 @@ class OrderCard extends StatelessWidget {
                   maxFontSize: 18,
                 ),
                 AutoSizeText(
-                  "233444",
+                  order!.orderId.toString(),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -130,7 +136,7 @@ class OrderCard extends StatelessWidget {
             //     ),
             //   ],
             // ),
-            const Row(
+             Row(
               children: [
                 AutoSizeText(
                   "tableno: ",
@@ -142,7 +148,7 @@ class OrderCard extends StatelessWidget {
                   maxFontSize: 18,
                 ),
                 AutoSizeText(
-                  "12",
+                  order.tableNo.toString(),
                   style: TextStyle(
                     color: AppColors.newTextColor,
                     fontSize: 18,
@@ -152,17 +158,27 @@ class OrderCard extends StatelessWidget {
                 ),
               ],
             ),
+            AutoSizeText(
+              "Order Items: ",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              minFontSize: 14,
+              maxFontSize: 18,
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: order.items.length,
+              itemCount: order.items!.length,
               itemBuilder: (BuildContext context, int index) {
-                final item = order.items[index];
+                final item = order.items![index];
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      item.name,
+                      item!.name!,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -170,7 +186,7 @@ class OrderCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 7.0),
                       child: Text(
-                        item.quantity.toString(),
+                        item!.quatity!.toString(),
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -183,7 +199,7 @@ class OrderCard extends StatelessWidget {
             DropdownButtonFormField(
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
+                  borderSide: BorderSide(color: Colors.blue),
                 ),
               ),
               dropdownColor: Colors.white,
@@ -191,6 +207,25 @@ class OrderCard extends StatelessWidget {
               items: _dropDownItem(),
               onChanged: (value) {
                 print(value);
+                status = value;
+                 id = order
+                    .orderId
+                    .toString();
+                //
+                BlocProvider.of<
+                    CheckStatusCubit>(
+                    context)
+                    .CheckStatusData();
+
+                BlocProvider.of<
+                    GetDataCubit>(
+                    context)
+                    .fetchReadyData();
+
+                BlocProvider.of<
+                    FetchPreparedDataCubit>(
+                    context)
+                    .fetchPreparedlData();
               },
               onTap: () {},
             ),
@@ -218,36 +253,7 @@ class Item {
 }
 
 // Sample data
-List<Order> orders1 = [
-  Order(orderNo: 1, tableNo: 101, items: [
-    Item(name: 'Pizza', quantity: 1),
-  ]),
-  Order(orderNo: 2, tableNo: 102, items: [
-    Item(name: 'Burger', quantity: 2),
-    Item(name: 'Fries', quantity: 1),
-  ]),
-  Order(orderNo: 3, tableNo: 103, items: [
-    Item(name: 'Pasta', quantity: 1),
-    Item(name: 'Salad', quantity: 1),
-    Item(name: 'Soup', quantity: 1),
-    Item(name: 'Sushi', quantity: 3),
-    Item(name: 'Tempura', quantity: 2),
-  ]),
-  Order(orderNo: 3, tableNo: 103, items: [
-    Item(name: 'Pasta', quantity: 1),
-    Item(name: 'Salad', quantity: 1),
-    Item(name: 'Soup', quantity: 1),
-    Item(name: 'Sushi', quantity: 3),
-    Item(name: 'Tempura', quantity: 2),
-    Item(name: 'Burger', quantity: 2),
-    Item(name: 'Fries', quantity: 1),
-    Item(name: 'Burger', quantity: 2),
-    Item(name: 'Fries', quantity: 1),
-    Item(name: 'Burger', quantity: 2),
-    Item(name: 'Fries', quantity: 1),
-    Item(name: 'Burger', quantity: 2),
-    Item(name: 'Fries', quantity: 1),
-  ]),
+List<OrderModel> orders1 = [
 ];
 
 List<Order> orders2 = [
