@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:host_task/screen/host_screen/cubits/ready_data/get_data_cubit.dart';
 
 import '../../core/common/colors.dart';
 
@@ -7,40 +9,46 @@ class OrderListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Order List'),
-      ),
-      body: SingleChildScrollView(child: Column(
-        children: [
-          Container(
-            color: Colors.orange,
-            width: double.infinity,
-            child: Expanded(child: Container(
-                width: double.infinity,
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:
-                      orders1.map((order) => OrderCard(order: order)).toList(),
-                    ))
-            )),),
-          // Expanded(
-          //   child:
-          // ),
-          Container(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: orders2.map((order) => OrderCard(order: order)).toList(),
+        appBar: AppBar(
+          title: Text('Order List'),
+        ),
+        body: SingleChildScrollView(child: Column(
+          children: [
+            Container(
+              color: Colors.orange,
+              width: double.infinity,
+              child: Expanded(child: Container(
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: BlocBuilder<GetDataCubit, GetDataState>(
+                        builder: (context, state) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:
+                            orders1.map((order) => OrderCard(order: order))
+                                .toList(),
+                          );
+                        },
+                      ))
+              )),),
+            // Expanded(
+            //   child:
+            // ),
+            Container(
+              width: double.infinity,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: orders2.map((order) => OrderCard(order: order))
+                      .toList(),
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    ));
+          ],
+        ),
+        ));
   }
 }
 
@@ -48,10 +56,11 @@ List<DropdownMenuItem<String>> _dropDownItem() {
   List<String> itemValue = ["Ready", "Delivered"];
 
   return itemValue
-      .map((value) => DropdownMenuItem(
-    value: value,
-    child: Text(value),
-  ))
+      .map((value) =>
+      DropdownMenuItem(
+        value: value,
+        child: Text(value),
+      ))
       .toList();
 }
 
@@ -133,7 +142,7 @@ class OrderCard extends StatelessWidget {
                   maxFontSize: 18,
                 ),
                 AutoSizeText(
-                 "12",
+                  "12",
                   style: TextStyle(
                     color: AppColors.newTextColor,
                     fontSize: 18,
@@ -181,7 +190,7 @@ class OrderCard extends StatelessWidget {
               value: "Ready",
               items: _dropDownItem(),
               onChanged: (value) {
-               print(value);
+                print(value);
               },
               onTap: () {},
             ),
