@@ -11,6 +11,7 @@ import 'package:host_task/core/common/colors.dart';
 import 'package:host_task/core/common/common_messages.dart';
 import 'package:host_task/core/common/overlay.dart';
 import 'package:host_task/screen/host_screen/host_screen.dart';
+import 'package:host_task/screen/host_screen/order_list.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
           listener: (context, state) {
             if (state is LoginSuccessfulState) {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => HostScreen()),
+                  MaterialPageRoute(builder: (context) => OrderListScreen()),
                   (Route route) => false);
            
 

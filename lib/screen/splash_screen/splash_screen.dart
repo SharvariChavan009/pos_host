@@ -11,6 +11,8 @@ import 'package:host_task/core/common/label.dart';
 import 'package:host_task/core/images/image.dart';
 import 'package:host_task/screen/host_screen/host_screen.dart';
 
+import '../host_screen/order_list.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -43,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
             MaterialPageRoute(
                 builder: (context) => (box.get("authToken") == null)
                     ? LoginScreen()
-                    : HostScreen()),
+                    : OrderListScreen()),
             (Route route) => false);
       } catch (e) {
         debugPrint('Error navigating to LoginScreen: $e');
