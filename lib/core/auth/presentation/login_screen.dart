@@ -10,6 +10,7 @@ import 'package:host_task/core/common/c_text_field.dart';
 import 'package:host_task/core/common/colors.dart';
 import 'package:host_task/core/common/common_messages.dart';
 import 'package:host_task/core/common/overlay.dart';
+import 'package:host_task/screen/host_screen/cubits/ready_data/get_data_cubit.dart';
 import 'package:host_task/screen/host_screen/host_screen.dart';
 import 'package:host_task/screen/host_screen/order_list.dart';
 
@@ -53,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
            
 
               BlocProvider.of<GetUserDetailsCubit>(context).getUserDetails();
+              BlocProvider.of<GetDataCubit>(context).fetchReadyData();
             }
             if (state is LoginFailedfulState) {
               //------- Snackbar ------------
