@@ -43,18 +43,18 @@ class FetchPreparedDataCubit extends Cubit<FetchPreparedDataState> {
 
         
 
-        // allOrderData.clear();
-        // print("original order list${allOrderData.length}");
+        allOrderData.clear();
+        print("original order list${allOrderData.length}");
 
-        // responseData.forEach((i) => allOrderData.add(OrderModel.fromJson(i)));
-        // print("prder data lebgth${responseData.length}");
+        responseData.forEach((i) => allOrderData.add(OrderModel.fromJson(i)));
+        print("prder data lebgth${responseData.length}");
 
-        // deliveredOrderData =
-        //     allOrderData.where((order) => order.status == "Delivered").toList();
-        // print("Delivered order count = ${deliveredOrderData.length}");
-        //
-        // emit(GetPreparedDataLoadedState(deliveredList: deliveredOrderData));
-        // print("<< User Token: $authVar >>");
+        deliveredOrderData =
+            allOrderData.where((order) => order.status == "Delivered").toList();
+        print("Delivered order count = ${deliveredOrderData.length}");
+
+        emit(GetPreparedDataLoadedState(deliveredList: deliveredOrderData));
+        print("<< User Token: $authVar >>");
       }
     } catch (e) {
       emit(GetAllDataErrorState1());

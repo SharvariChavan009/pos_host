@@ -51,10 +51,10 @@ class OrderListScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 20.0, left: 10),
             child: Row(
               children: [
-                // CommonSearchBar(),
-                // SizedBox(
-                //   width: 10,
-                // ),
+                CommonSearchBar(),
+                SizedBox(
+                  width: 10,
+                ),
                 const Icon(
                   size: 25,
                   Icons.notifications,
