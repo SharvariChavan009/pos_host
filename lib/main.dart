@@ -6,13 +6,14 @@ import 'package:host_task/core/auth/cubits/get_user_details/get_user_details_cub
 import 'package:host_task/core/auth/cubits/logout/logout_cubit.dart';
 import 'package:host_task/core/auth/cubits/password/login_cubit.dart';
 import 'package:host_task/core/auth/presentation/login_screen.dart';
+import 'package:host_task/screen/common/common_search_bar.dart';
 import 'package:host_task/screen/host_screen/cubits/change_language/change_language_cubit.dart';
 import 'package:host_task/screen/host_screen/cubits/check_status/check_status_cubit.dart';
 import 'package:host_task/screen/host_screen/cubits/delivered_Data/fetch_prepared_data_cubit.dart';
 import 'package:host_task/screen/host_screen/cubits/ready_data/get_data_cubit.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:host_task/screen/host_screen/host_screen.dart';
+import 'package:host_task/screen/host_screen/cubits/search_cubit.dart';
 import 'package:host_task/screen/splash_screen/splash_screen.dart';
 
 // localization
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => GetUserDetailsCubit()),
           BlocProvider(create: (context) => LogoutCubit()),
           BlocProvider(create: (context) => ChangeLanguageCubit()),
+          BlocProvider(create: (context) => SearchCubit()),
         ],
         child:
             //  MaterialApp(

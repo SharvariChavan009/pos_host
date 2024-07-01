@@ -3,6 +3,8 @@
  "collectTheOrder" : "Collect The Order",
  "orderno" : "Order No",
  "tableno" : "Table No",
- "viewmore" : "View More"
+ "viewmore" : "View More",
+ "orderItems" : "Order Items",
+ "logout" : "Logout"
 
 }

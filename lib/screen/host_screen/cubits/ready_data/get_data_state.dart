@@ -3,6 +3,7 @@ part of 'get_data_cubit.dart';
 sealed class GetDataState {}
 
 final class GetDataInitial extends GetDataState {}
+final class GetDataLoading extends GetDataState {}
 
 class GetPlacedDataLoadedState extends GetDataState {
   final List<OrderModel> readyList;

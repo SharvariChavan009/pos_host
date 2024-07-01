@@ -10,8 +10,8 @@ import 'package:host_task/core/common/c_text_field.dart';
 import 'package:host_task/core/common/colors.dart';
 import 'package:host_task/core/common/common_messages.dart';
 import 'package:host_task/core/common/overlay.dart';
+import 'package:host_task/core/images/image.dart';
 import 'package:host_task/screen/host_screen/cubits/ready_data/get_data_cubit.dart';
-import 'package:host_task/screen/host_screen/host_screen.dart';
 import 'package:host_task/screen/host_screen/order_list.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,15 +36,24 @@ class _LoginScreenState extends State<LoginScreen> {
 // -----------------------------------------
     return Scaffold(
       backgroundColor: AppColors.scolor,
-      appBar: AppBar(
-        backgroundColor: AppColors.scolor,
-        title: const Text(
-          "Profile",
-          style: TextStyle(color: Colors.black),
+      // appBar: AppBar(
+      //   backgroundColor: AppColors.scolor,
+      //   title: const Text(
+      //     "Profile",
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      //   centerTitle: true,
+      // ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              AppImage.splashScreenBackground,
+            ),
+            fit: BoxFit.cover,
+          ),
         ),
-        centerTitle: true,
-      ),
-      body: Center(
+        child:Center(
         child: BlocListener<CheckEmailPassCubit, CheckEmailPassState>(
           listener: (context, state) {
             if (state is LoginSuccessfulState) {
@@ -83,10 +92,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  const CircleAvatar(
-                    radius: 32, // Image radius
-                    backgroundImage: NetworkImage(
-                        'https://png.pngitem.com/pimgs/s/105-1050694_user-placeholder-image-png-transparent-png.png'),
+                  CircleAvatar(
+                    backgroundColor: AppColors.whiteColor,
+                    minRadius: 20,
+                    maxRadius: 20,
+                    child: ClipOval(
+                      child: Image.asset(
+                        AppImage.splashScreenLogo, // Replace with AppImage.appHeaderLogo if it's a constant string
+                        fit: BoxFit.contain,
+                        width: 30,
+                        height: 30,
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -473,6 +490,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

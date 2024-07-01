@@ -3,6 +3,8 @@
  "collectTheOrder" : "اجمع الطلب",
  "orderno" : "رقم الأمر",
  "tableno" : "رقم الطاولة",
- "viewmore" : "عرض المزيد"
+ "viewmore" : "عرض المزيد",
+ "orderItems" : "طلب بضاعة",
+ "logout" : "تسجيل خروج"
 
 }
