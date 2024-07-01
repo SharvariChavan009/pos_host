@@ -9,7 +9,6 @@ import 'package:host_task/core/auth/presentation/login_screen.dart';
 import 'package:host_task/core/common/colors.dart';
 import 'package:host_task/core/common/label.dart';
 import 'package:host_task/core/images/image.dart';
-import 'package:host_task/screen/host_screen/host_screen.dart';
 
 import '../host_screen/order_list.dart';
 
@@ -85,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 duration: const Duration(seconds: 1),
                 top: isImageSet ? size.maxHeight : 20,
                 child: Image.asset(
-                  AppImage.logo1,
+                  AppImage.splashScreenLogo,
                   height: 300,
                   width: 500,
                   fit: BoxFit.fitWidth,
@@ -96,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 disappear: true,
                 duration: Duration(milliseconds: 4000),
                 child: AutoSizeText(
-                  'Empowering Your Culinary Journey',
+                  '"Efficiency Elevated: Quick Dine – Where Service Meets Speed!"',
                   minFontSize: 25,
                   maxFontSize: 30,
                   textAlign: TextAlign.end,
@@ -113,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Positioned(
               top: 250,
                 child: Image.asset(
-                  "assets/image/qd_logo.webp",
+                 AppImage.splashScreenLogo,
                   height: 80,
                   width: 200,
                   fit: BoxFit.fill,
@@ -124,7 +123,6 @@ class _SplashScreenState extends State<SplashScreen> {
         },
       );
     }
-
     return Scaffold(
       extendBodyBehindAppBar: false,
       extendBody: true,
@@ -134,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              "assets/image/Desktop - 46.png",
+              AppImage.splashScreenBackground,
             ),
             fit: BoxFit.cover,
           ),
